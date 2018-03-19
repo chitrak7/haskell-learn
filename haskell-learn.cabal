@@ -1,0 +1,23 @@
+Name:                haskell-learn
+Version:             0.1.0.0
+Synopsis:            Haskell Learn
+Category:            Algorithms, Machine Learning, Data structures
+License:             MIT
+License-file:        LICENSE
+Author:              Chitrak Raj Gupta
+Maintainer:          chitrak711988@gmail.com
+Build-Type:          Simple
+Cabal-Version:       >=1.24
+
+Description: 	     A Machine Learning toolkit written in haskell
+-- TODO: Improve description
+
+Library
+	Build-Depends:  
+		base  	>= 4.8    &&  <5.0
+		array   >= 0.4.0  &&  <0.6
+
+	Exposed-modules :
+		DS.Dataset     
+		KNN.KNN
+
