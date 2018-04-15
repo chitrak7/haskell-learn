@@ -20,4 +20,5 @@ Library
 	Exposed-modules :
 		DS.Dataset     
 		KNN.KNN
+		SVM.SVM
 
