@@ -13,11 +13,11 @@ data SVMSolution = SVMSolution [Float] Float deriving (Show)
 
 data Kernel = Linear | Quadratic
 
---fit :: Dataset -> Kernel -> SVMSolution
+fit :: Dataset -> Kernel -> SVMSolution
 
-fit (Dataset (x,y)) kernel = w
+fit (Dataset (x,y)) kernel = SVMSolution w b
 		where   (w,b) = solveSMO x y kernel n alpha max_iter False 
-			max_iter = 1
+			max_iter = 1000
 			alpha = take n [0 ..] 
 			np = length (x!!0)
 			n = length x 
@@ -31,6 +31,9 @@ solveSMO _ _ _ _ _ 0 _ = error "Maximum iterations exceeded"
 solveSMO x y kernel n alpha max_iter False = solveSMO x y kernel n alpha_n (max_iter - 1) stop
 		where stop = (norm (diff alpha_n alpha) < 0.01)
 		      alpha_n = calcNewAlpha x y kernel n n alpha
+
+predict :: X -> SVMSolution -> Y
+predict xs (SVMSolution w b) = [y | x<-xs, let y = calcH x w b]
 
 returnVectors :: X -> Y -> Kernel -> [Float] -> ([Float], Float)
 returnVectors x y kernel alpha = let
@@ -56,8 +59,8 @@ calcNewAlpha x y kernel n i alpha = ans
 		alpha_n = sub alpha_t alpha_jp j
 		alpha_t = sub alpha alpha_kp k
 		alpha_kp = alpha_k + y_k*y_j*(alpha_j - alpha_jp) 
-		alpha_jp = min h (max l alpha_j + t)
-		t =  y_j  *  (e_k - e_j) / k_jk 
+		alpha_jp = if (k_jk == 0) then alpha_j else (min h (max l alpha_j + t))
+		t = if(k_jk==0) then 0 else (y_j  *  (e_k - e_j) / k_jk) 
 		e_k = calcE x_k y_k w b
 		e_j = calcE x_j y_j w b
 		(w, b) = returnVectors x y kernel alpha
