@@ -5,7 +5,7 @@
 --	Shaswat kar <>
 ----------------------------------------------------------------------------
 
-module KNN where
+module KNN.KNN where
 import DS.Dataset
 	
 knnClassifier :: Dataset -> X -> Int -> Y

@@ -21,4 +21,6 @@ Library
 		DS.Dataset     
 		KNN.KNN
 		SVM.SVM
+		Graph.Graph
+		Clf
 
